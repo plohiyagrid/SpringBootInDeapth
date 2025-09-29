@@ -1,6 +1,7 @@
 package com.plohiya.SpringBoot.service;
 
 import com.plohiya.SpringBoot.entity.Department;
+import com.plohiya.SpringBoot.error.DepeartmentNotFoundException;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface DepartmentService {
 
     public List<Department> getAllDepartments();
 
-    public Department departmentById(Long departmentId);
+    public Department departmentById(Long departmentId) throws DepeartmentNotFoundException;
 
     public void deleteDepartmentById(Long departmentId);
 

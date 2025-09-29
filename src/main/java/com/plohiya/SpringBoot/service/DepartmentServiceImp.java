@@ -1,6 +1,7 @@
 package com.plohiya.SpringBoot.service;
 
 import com.plohiya.SpringBoot.entity.Department;
+import com.plohiya.SpringBoot.error.DepeartmentNotFoundException;
 import com.plohiya.SpringBoot.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.lang.annotation.Retention;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DepartmentServiceImp implements DepartmentService {
@@ -26,8 +28,13 @@ public class DepartmentServiceImp implements DepartmentService {
     }
 
     @Override
-    public Department departmentById(Long departmentId){
-        return departmentRepository.findById(departmentId).get();
+    public Department departmentById(Long departmentId) throws DepeartmentNotFoundException {
+        Optional<Department>department = departmentRepository.findById(departmentId);
+        if (! department.isPresent()){
+            throw new DepeartmentNotFoundException("Department Not Available");
+        }
+
+        return department.get();
     }
 
     @Override

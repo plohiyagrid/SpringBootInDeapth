@@ -1,6 +1,7 @@
 package com.plohiya.SpringBoot.controller;
 
 import com.plohiya.SpringBoot.entity.Department;
+import com.plohiya.SpringBoot.error.DepeartmentNotFoundException;
 import com.plohiya.SpringBoot.service.DepartmentService;
 import com.plohiya.SpringBoot.service.DepartmentServiceImp;
 import jakarta.validation.Valid;
@@ -8,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 public class DepartmentController {
@@ -17,8 +20,7 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
-    private final Logger LOGGER = (Logger) LoggerFactory.getLogger(DepartmentController.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentController.class);
     @PostMapping("/departments")
     public Department saveDepartment(@Valid @RequestBody Department department){
         LOGGER.info("Inside saveDepartment of DepartmentController");
@@ -32,7 +34,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/departments/{id}")
-    public Department fetchAllDepartmentById(@PathVariable("id") Long departmentId){
+    public Department fetchAllDepartmentById(@PathVariable("id") Long departmentId) throws DepeartmentNotFoundException {
         LOGGER.info("Inside getDepartmentById of DepartmentController");
         return departmentService.departmentById(departmentId);
     }
